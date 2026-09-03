@@ -133,7 +133,7 @@ export function buildLocalRegionFacts(
     const dongCounts = dongBizCounts(sido, sigungu);
     return {
       level: "dong",
-      snapshotH2: `${dong}에서 ${name} 입양을 볼 때`
+      snapshotH2: `${dong}에서 ${name} 입양을 볼 때`,
       snapshotSource: bizSourceLine(),
       stats: snapshotStats(sido, sigungu, dong),
       tables: [
@@ -178,7 +178,7 @@ export function buildLocalRegionFacts(
     const nearbyGu = neighborSigungus(sido, sigungu, 8);
     return {
       level: "sigungu",
-      snapshotH2: `${sigungu}에서 ${name}과 살기`
+      snapshotH2: `${sigungu}에서 ${name}과 살기`,
       snapshotSource: bizSourceLine(),
       stats: snapshotStats(sido, sigungu),
       tables: [
@@ -210,7 +210,7 @@ export function buildLocalRegionFacts(
     const counts = sigunguBizCounts(sido);
     return {
       level: "sido",
-      snapshotH2: `${sido} ${name} 입양 지도`
+      snapshotH2: `${sido} ${name} 입양 지도`,
       snapshotSource: bizSourceLine(),
       stats: snapshotStats(sido),
       tables: [
@@ -244,7 +244,7 @@ export function buildLocalRegionFacts(
   const counts = sidoBizCounts();
   return {
     level: "national",
-    snapshotH2: `전국에서 ${name} 입양을 고를 때`
+    snapshotH2: `전국에서 ${name} 입양을 고를 때`,
     snapshotSource: bizSourceLine(),
     stats: snapshotStats(),
     tables: [
