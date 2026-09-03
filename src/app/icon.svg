@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="와일드쿤">
+  <rect width="64" height="64" rx="10" fill="#243056"/>
+  <ellipse cx="32" cy="40" rx="16" ry="12" fill="#d4a017"/>
+  <ellipse cx="20" cy="22" rx="6" ry="10" fill="#f4ead0"/>
+  <ellipse cx="44" cy="22" rx="6" ry="10" fill="#f4ead0"/>
+  <circle cx="26" cy="38" r="2.4" fill="#243056"/>
+  <circle cx="38" cy="38" r="2.4" fill="#243056"/>
+  <ellipse cx="32" cy="44" rx="2.6" ry="1.8" fill="#f7f3ea"/>
+</svg>

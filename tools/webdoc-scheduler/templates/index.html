@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>웹문서 발행기 전체 스케줄러</title>
+  <style>
+    :root {
+      --bg: #eef1f6;
+      --card: #fff;
+      --ink: #1c2433;
+      --muted: #5a6578;
+      --line: rgba(28, 36, 51, 0.12);
+      --accent: #2f5d8c;
+      --accent2: #1a2744;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Malgun Gothic", "Segoe UI", sans-serif;
+      background: linear-gradient(160deg, #f7f4ef, #eef1f6 55%, #d7dee8);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+    .wrap { max-width: 920px; margin: 0 auto; padding: 28px 20px 40px; }
+    .top {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px 20px;
+      margin-bottom: 14px;
+    }
+    h1 { font-size: 1.35rem; margin: 0 0 6px; }
+    .sub { margin: 0; color: var(--muted); font-size: .9rem; line-height: 1.55; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px 20px;
+      margin-bottom: 12px;
+    }
+    label { display: block; font-size: .82rem; color: var(--muted); font-weight: 700; margin-bottom: 6px; }
+    input[type="text"], input[type="number"] {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 9px 10px;
+      font-size: .95rem;
+    }
+    .row { display: flex; gap: 8px; align-items: center; }
+    .row input[type="text"] { flex: 1; }
+    button {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 4px;
+      padding: 9px 13px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    button.primary {
+      background: var(--accent2);
+      color: #fff;
+      border-color: var(--accent2);
+    }
+    button.danger { background: #8a3b32; color: #fff; border-color: #8a3b32; }
+    button:disabled { opacity: .45; cursor: default; }
+    .status {
+      font-size: .92rem;
+      color: var(--accent2);
+      font-weight: 700;
+      margin: 0 0 10px;
+    }
+    .list { display: flex; flex-direction: column; gap: 8px; }
+    .item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 10px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 10px 12px;
+      background: #fbfcfe;
+    }
+    .item .name { font-weight: 700; }
+    .item .path { color: var(--muted); font-size: .75rem; word-break: break-all; margin-top: 2px; }
+    .move { display: flex; flex-direction: column; gap: 4px; }
+    .move button { padding: 3px 8px; font-size: .75rem; }
+    .empty { color: var(--muted); padding: 12px 0; }
+    .log {
+      height: 240px;
+      overflow: auto;
+      background: #1a2744;
+      color: #e8e2d6;
+      border-radius: 6px;
+      padding: 12px;
+      font-size: .82rem;
+      line-height: 1.55;
+      white-space: pre-wrap;
+    }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .hint { color: var(--muted); font-size: .82rem; line-height: 1.5; margin: 8px 0 0; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <h1>웹문서 발행기 전체 스케줄러</h1>
+        <p class="sub">한 폴더의 발행기를 골라 한 대씩 돌립니다. 매일 지정 시각에 같은 순서로 계속 돌릴 수 있습니다.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <label>발행기 폴더</label>
+      <div class="row">
+        <input id="folder" type="text" placeholder="C:\Users\USER\Desktop\준모웹이미지\웹문서생성기" />
+        <button id="btn_pick" type="button">폴더 고르기</button>
+        <button id="btn_scan" type="button">다시 찾기</button>
+      </div>
+      <p class="hint">폴더 안에 `○○웹문서생성기.exe` 가 있으면 아래에 나타납니다. 하위 폴더까지 찾습니다.</p>
+    </div>
+
+    <div class="card">
+      <p class="status" id="status">대기 중</p>
+      <p class="status" id="schedule_status">매일 자동: 꺼짐</p>
+      <div class="row" style="margin-bottom:12px;flex-wrap:wrap">
+        <label class="row" style="margin:0;gap:8px;font-weight:700;color:var(--ink)">
+          <input id="schedule_enabled" type="checkbox" />
+          매일 지정 시각에 자동 실행
+        </label>
+        <div style="width:140px">
+          <label>시작 시각</label>
+          <input id="schedule_time" type="time" step="60" value="09:00" />
+        </div>
+        <div style="width:140px">
+          <label>최대 대기(분)</label>
+          <input id="max_wait_min" type="number" min="10" value="180" />
+        </div>
+        <button id="btn_schedule" type="button">매일 자동 저장</button>
+      </div>
+      <p class="hint">개별 발행기의 [매일 자동 발행]은 끄세요. 스케줄은 이 프로그램만 켜 두면 됩니다. PC가 꺼지거나 절전되면 그 날은 돌지 않습니다.</p>
+      <div id="list" class="list"></div>
+      <p class="hint">각 발행기에서 큐를 미리 만들어 두어야 오늘 분량이 돌아갑니다. 큐가 비어 있으면 건너뜁니다.</p>
+      <div class="actions">
+        <button class="primary" id="btn_start" type="button">선택한 순서대로 실행</button>
+        <button class="danger" id="btn_stop" type="button">중지</button>
+        <button id="btn_quit" type="button">프로그램 종료</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <label>진행 로그</label>
+      <div class="log" id="log"></div>
+    </div>
+  </div>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    let items = [];
+    let running = false;
+    let formHydrated = false;
+
+    function toHhmm(v) {
+      const t = String(v || "").trim().replace("：", ":");
+      const m = t.match(/^(\d{1,2}):(\d{1,2})/);
+      if (!m) return "";
+      const h = Number(m[1]), min = Number(m[2]);
+      if (h > 23 || min > 59) return "";
+      return String(h).padStart(2, "0") + ":" + String(min).padStart(2, "0");
+    }
+
+    function applyScheduleFields(st) {
+      if (!st || !st.settings) return;
+      const s = st.settings;
+      if (s.folder) $("folder").value = s.folder;
+      if (s.max_wait_min) $("max_wait_min").value = s.max_wait_min;
+      $("schedule_enabled").checked = !!s.schedule_enabled;
+      const hhmm = toHhmm(s.schedule_time);
+      if (hhmm) $("schedule_time").value = hhmm;
+    }
+
+    async function api(path, opt) {
+      const r = await fetch(path, Object.assign({
+        headers: { "Content-Type": "application/json" },
+      }, opt || {}));
+      const data = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(data.error || data.status || "요청 실패");
+      return data;
+    }
+
+    function renderList() {
+      const box = $("list");
+      if (!items.length) {
+        box.innerHTML = '<div class="empty">이 폴더에서 웹문서 발행기를 찾지 못했습니다.</div>';
+        return;
+      }
+      box.innerHTML = items.map((it, i) => `
+        <div class="item">
+          <input type="checkbox" data-i="${i}" ${it.checked ? "checked" : ""} />
+          <div>
+            <div class="name">${it.name}</div>
+            <div class="path">${it.exe}</div>
+          </div>
+          <div class="move">
+            <button type="button" data-up="${i}">위</button>
+            <button type="button" data-down="${i}">아래</button>
+          </div>
+        </div>
+      `).join("");
+      box.querySelectorAll("input[type=checkbox]").forEach((el) => {
+        el.onchange = () => { items[Number(el.dataset.i)].checked = el.checked; };
+      });
+      box.querySelectorAll("[data-up]").forEach((el) => {
+        el.onclick = () => move(Number(el.dataset.up), -1);
+      });
+      box.querySelectorAll("[data-down]").forEach((el) => {
+        el.onclick = () => move(Number(el.dataset.down), 1);
+      });
+    }
+
+    function move(i, dir) {
+      const j = i + dir;
+      if (j < 0 || j >= items.length) return;
+      const tmp = items[i];
+      items[i] = items[j];
+      items[j] = tmp;
+      renderList();
+    }
+
+    function applyState(st, replaceList, applyForm) {
+      running = !!st.running;
+      $("status").textContent = st.status || "대기 중";
+      $("schedule_status").textContent = st.schedule_status || "매일 자동: 꺼짐";
+      if (applyForm || !formHydrated) {
+        applyScheduleFields(st);
+        formHydrated = true;
+      }
+      if (replaceList && Array.isArray(st.items)) {
+        const selected = new Set(st.settings && st.settings.selected ? st.settings.selected : []);
+        items = st.items.map((it) => ({
+          ...it,
+          checked: selected.size ? selected.has(it.exe) : true,
+        }));
+        renderList();
+      }
+      $("log").textContent = (st.logs || []).join("\n");
+      $("log").scrollTop = $("log").scrollHeight;
+      $("btn_start").disabled = running;
+      $("btn_stop").disabled = !running;
+      $("btn_pick").disabled = running;
+      $("btn_scan").disabled = running;
+    }
+
+    async function refresh(replaceList, applyForm) {
+      const st = await api("/api/state");
+      applyState(st, replaceList, applyForm);
+    }
+
+    $("btn_pick").onclick = async () => {
+      const st = await api("/api/folder", { method: "POST", body: JSON.stringify({}) });
+      applyState(st, true, true);
+    };
+    $("btn_scan").onclick = async () => {
+      const st = await api("/api/folder", {
+        method: "POST",
+        body: JSON.stringify({ folder: $("folder").value }),
+      });
+      applyState(st, true, true);
+    };
+    $("btn_schedule").onclick = async () => {
+      const jobs = items.filter((x) => x.checked);
+      if ($("schedule_enabled").checked && !jobs.length) {
+        alert("매일 자동에 넣을 발행기를 선택하세요.");
+        return;
+      }
+      const time = toHhmm($("schedule_time").value);
+      if ($("schedule_enabled").checked && !time) {
+        alert("시작 시각을 HH:MM 형식으로 넣으세요. 예: 09:00");
+        return;
+      }
+      await api("/api/schedule", {
+        method: "POST",
+        body: JSON.stringify({
+          enabled: $("schedule_enabled").checked,
+          time,
+          jobs,
+          max_wait_min: Number($("max_wait_min").value || 180),
+        }),
+      });
+      await refresh(false, true);
+    };
+    $("btn_start").onclick = async () => {
+      const jobs = items.filter((x) => x.checked);
+      if (!jobs.length) {
+        alert("실행할 발행기를 선택하세요.");
+        return;
+      }
+      await api("/api/start", {
+        method: "POST",
+        body: JSON.stringify({
+          jobs,
+          max_wait_min: Number($("max_wait_min").value || 180),
+        }),
+      });
+      await refresh(false);
+    };
+    $("btn_stop").onclick = async () => {
+      $("btn_stop").disabled = true;
+      $("status").textContent = "중지 중…";
+      await api("/api/stop", { method: "POST", body: "{}" });
+      await refresh(false);
+    };
+    $("btn_quit").onclick = async () => {
+      $("btn_quit").disabled = true;
+      $("btn_stop").disabled = true;
+      $("btn_start").disabled = true;
+      $("status").textContent = "종료 중…";
+      await api("/api/quit", { method: "POST", body: "{}" });
+    };
+
+    refresh(true, true);
+    setInterval(() => refresh(false, false), 2000);
+  </script>
+</body>
+</html>

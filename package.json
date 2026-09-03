@@ -1,0 +1,33 @@
+{
+  "name": "iopet",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "check:deploy-target": "node scripts/ensure-iopet.cjs",
+    "deploy:prod": "node scripts/ensure-iopet.cjs && vercel --prod --yes",
+    "rewrite:encyclopedia": "node tools/rewrite-breed-encyclopedia.mjs"
+  },
+  "dependencies": {
+    "@google/genai": "^2.17.1",
+    "@vercel/blob": "^2.6.1",
+    "jose": "^6.2.3",
+    "lucide-react": "^0.511.0",
+    "next": "^15.5.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "^15.5.0",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

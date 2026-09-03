@@ -1,0 +1,361 @@
+.home-lux {
+  --lux-bg: #f4fbf9;
+  --lux-panel: #ffffff;
+  --lux-gold: #0f766e;
+  --lux-gold-soft: rgba(15, 118, 110, 0.12);
+  --lux-line: rgba(15, 118, 110, 0.18);
+  --lux-ivory: #134e4a;
+  --lux-muted: rgba(19, 78, 74, 0.62);
+  --lux-display: "Fraunces", "Noto Serif KR", serif;
+  --lux-peach: #fb7185;
+  background: var(--lux-bg);
+  color: var(--lux-ivory);
+  min-height: 70vh;
+}
+
+body:has(.home-lux) {
+  background: #f4fbf9;
+}
+
+.home-lux .home-hero {
+  position: relative;
+  min-height: 82svh;
+  overflow: hidden;
+  display: grid;
+  align-items: stretch;
+}
+
+@media (min-width: 960px) {
+  .home-lux .home-hero {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    min-height: 88svh;
+  }
+}
+
+.home-lux .home-hero-copy {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 6.5rem 0 3.2rem;
+}
+
+.home-lux .home-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--lux-gold);
+}
+
+.home-lux .home-title {
+  margin-top: 0.9rem;
+  font-family: var(--lux-display);
+  font-size: clamp(3.2rem, 8vw, 5.8rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  color: var(--lux-ivory);
+}
+
+.home-lux .home-lead {
+  margin-top: 1.3rem;
+  max-width: 30rem;
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--lux-muted);
+}
+
+.home-lux .home-note {
+  margin-top: 0.85rem;
+  max-width: 28rem;
+  font-size: 0.88rem;
+  color: var(--lux-peach);
+}
+
+.home-lux .home-actions {
+  margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.home-lux .home-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 3rem;
+  padding: 0.85rem 1.4rem;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.home-lux .home-btn-gold {
+  background: var(--lux-gold);
+  color: #fff;
+  border: 1px solid var(--lux-gold);
+}
+
+.home-lux .home-btn-gold:hover {
+  background: #115e59;
+}
+
+.home-lux .home-btn-ghost {
+  background: transparent;
+  color: var(--lux-ivory);
+  border: 1px solid var(--lux-line);
+}
+
+.home-lux .home-btn-ghost:hover {
+  border-color: var(--lux-gold);
+  color: var(--lux-gold);
+}
+
+.home-lux .home-hero-gallery {
+  position: relative;
+  min-height: 22rem;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0.7rem;
+  padding: 5rem 0 2.4rem;
+}
+
+.home-lux .home-hero-shot {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  border-radius: 1.8rem;
+  background: #ccfbf1;
+}
+
+.home-lux .home-hero-shot:first-child {
+  grid-row: 1 / span 2;
+}
+
+.home-lux .home-hero-shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s ease;
+}
+
+.home-lux .home-hero-shot:hover img {
+  transform: scale(1.05);
+}
+
+.home-lux .home-hero-shot span {
+  position: absolute;
+  left: 0.85rem;
+  bottom: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  font-family: var(--lux-display);
+  font-size: 1rem;
+  color: var(--lux-ivory);
+}
+
+.home-lux .home-steps {
+  border-top: 1px solid var(--lux-line);
+  border-bottom: 1px solid var(--lux-line);
+  padding: 1.8rem 0;
+  background: #fff;
+}
+
+.home-lux .home-steps ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 1.1rem;
+}
+
+@media (min-width: 768px) {
+  .home-lux .home-steps ol {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+}
+
+.home-lux .home-steps li {
+  display: grid;
+  gap: 0.4rem;
+  color: var(--lux-gold);
+}
+
+.home-lux .home-steps b {
+  font-size: 1.02rem;
+  font-family: var(--lux-display);
+  color: var(--lux-ivory);
+}
+
+.home-lux .home-steps span {
+  font-size: 0.94rem;
+  line-height: 1.65;
+  color: var(--lux-muted);
+}
+
+.home-lux .home-breeds {
+  padding: 4.2rem 0 2rem;
+}
+
+.home-lux .home-breeds-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.home-lux .home-breeds-head h2 {
+  margin: 0.4rem 0 0;
+  font-family: var(--lux-display);
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--lux-ivory);
+}
+
+.home-lux .home-breeds-head p {
+  max-width: 22rem;
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--lux-muted);
+}
+
+.home-lux .home-group {
+  margin-top: 2.6rem;
+}
+
+.home-lux .home-group h3 {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin: 0 0 1.1rem;
+  font-family: var(--lux-display);
+  font-size: 1.55rem;
+  font-weight: 600;
+  color: var(--lux-ivory);
+}
+
+.home-lux .home-group h3 em {
+  font-style: normal;
+  font-family: Pretendard, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--lux-peach);
+}
+
+.home-lux .home-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+@media (min-width: 700px) {
+  .home-lux .home-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.95rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-lux .home-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.home-lux .home-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--lux-panel);
+  border: 1px solid var(--lux-line);
+  border-radius: 1.4rem;
+  isolation: isolate;
+}
+
+.home-lux .home-card:hover {
+  border-color: var(--lux-gold);
+}
+
+.home-lux .home-card-media {
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+}
+
+.home-lux .home-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s ease;
+}
+
+.home-lux .home-card:hover img {
+  transform: scale(1.06);
+}
+
+.home-lux .home-card-meta {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 2.4rem 0.9rem 0.9rem;
+  background: linear-gradient(180deg, transparent, rgba(19, 78, 74, 0.88) 58%);
+}
+
+.home-lux .home-card-meta small {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #99f6e4;
+}
+
+.home-lux .home-card-meta strong {
+  display: block;
+  margin-top: 0.15rem;
+  font-family: var(--lux-display);
+  font-size: 1.22rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.home-lux .home-card-meta b {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.home-lux .home-close {
+  margin-top: 3.4rem;
+  padding: 2.2rem 0 0;
+  border-top: 1px solid var(--lux-line);
+  text-align: center;
+}
+
+.home-lux .home-close p {
+  margin: 0 auto;
+  max-width: 32rem;
+  font-family: var(--lux-display);
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 1.55;
+  color: var(--lux-ivory);
+}
+
+.home-lux .home-close a {
+  margin-top: 1.2rem;
+}
