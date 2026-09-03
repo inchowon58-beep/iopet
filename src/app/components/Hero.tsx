@@ -3,14 +3,19 @@
 import Link from "next/link";
 import { Heart, Home, MessageCircle, PawPrint } from "lucide-react";
 import { SITE, CTA_KAKAO } from "@/lib/site";
+import { getBreed } from "@/lib/breeds";
+import { breedCover } from "@/lib/breed-images";
 import { breedPath } from "@/lib/breed-paths";
 import { useKakaoHref } from "./KakaoHrefProvider";
 
 const HERO_SHOTS = [
-  { slug: "뱅갈", name: "뱅갈", src: "https://image.cattery.co.kr/bengal/01.webp" },
-  { slug: "포메라니안", name: "포메라니안", src: "https://image.cattery.co.kr/pome/01.webp" },
-  { slug: "랙돌", name: "랙돌", src: "https://image.cattery.co.kr/ragdoll/01.webp" },
-] as const;
+  { slug: "뱅갈고양이", name: "뱅갈" },
+  { slug: "포메라니안", name: "포메라니안" },
+  { slug: "랙돌", name: "랙돌" },
+].map((shot) => {
+  const breed = getBreed(shot.slug);
+  return { ...shot, src: breedCover(breed?.folder || "bnagal") };
+});
 
 export default function Hero() {
   const kakaoHref = useKakaoHref();
